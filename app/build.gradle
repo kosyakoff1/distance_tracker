@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$viewbindingpropertydelegate_version"
+
     // KTX for the Maps SDK for Android
     implementation "com.google.maps.android:maps-ktx:$google_maps_version"
 
@@ -70,7 +72,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
 
     // Annotation processor
-    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version")
 

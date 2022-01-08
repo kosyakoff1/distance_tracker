@@ -1,11 +1,11 @@
 package com.kosyakoff.distancetrackerapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentContainerView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.kosyakoff.distancetrackerapp.navigation.Navigator
+import com.kosyakoff.distancetrackerapp.util.Permissions
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,5 +18,9 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
+
+        if (Permissions.hasLocationPermission(this)) {
+            Navigator.navigateToMaps(navController)
+        }
     }
 }
