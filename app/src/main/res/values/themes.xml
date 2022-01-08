@@ -11,7 +11,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorWarning">@color/red</item>
+        <item name="colorWarning">@color/red_500</item>
+        <item name="colorStopButton">@color/red_500</item>
         <item name="colorIconDefaultTint">@color/black</item>
+        <item name="colorResetButton">@color/orange_500</item>
     </style>
 </resources>
