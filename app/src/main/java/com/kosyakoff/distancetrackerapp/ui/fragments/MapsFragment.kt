@@ -11,10 +11,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.databinding.FragmentMapsBinding
+import com.kosyakoff.distancetrackerapp.util.Permissions
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import kotlinx.coroutines.delay
 
 class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
-    GoogleMap.OnMyLocationButtonClickListener {
+    GoogleMap.OnMyLocationButtonClickListener, EasyPermissions.PermissionCallbacks {
 
     private val binding: FragmentMapsBinding by viewBinding(FragmentMapsBinding::bind)
     private lateinit var map: GoogleMap
@@ -31,29 +34,14 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
 
         with(binding) {
             startButton.setOnClickListener {
-
+                onStartButtonClicked()
             }
         }
     }
 
-
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         initMap()
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun initMap() {
-        map.isMyLocationEnabled = true
-        map.setOnMyLocationButtonClickListener(this)
-        map.uiSettings.apply {
-            isZoomControlsEnabled = false
-            isZoomGesturesEnabled = false
-            isRotateGesturesEnabled = false
-            isTiltGesturesEnabled = false
-            isCompassEnabled = false
-            isScrollGesturesEnabled = false
-        }
     }
 
     override fun onMyLocationButtonClick(): Boolean {
@@ -73,4 +61,50 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
         }
         return false
     }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            SettingsDialog.Builder(requireContext()).build().show()
+        } else {
+            Permissions.requestBackgroundLocationPermission(this)
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        onStartButtonClicked()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(
+            requestCode, permissions, grantResults, this
+        )
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun initMap() {
+        map.isMyLocationEnabled = true
+        map.setOnMyLocationButtonClickListener(this)
+        map.uiSettings.apply {
+            isZoomControlsEnabled = false
+            isZoomGesturesEnabled = false
+            isRotateGesturesEnabled = false
+            isTiltGesturesEnabled = false
+            isCompassEnabled = false
+            isScrollGesturesEnabled = false
+        }
+    }
+
+    private fun onStartButtonClicked() {
+        if (!Permissions.hasBackgroundLocationPermission(requireContext())) {
+            Permissions.requestBackgroundLocationPermission(this)
+            return
+        }
+    }
+
 }
