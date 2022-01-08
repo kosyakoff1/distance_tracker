@@ -5,6 +5,7 @@ API key should be placed in release.properties and debug.properties (secrets-gra
 
 TODO:
 
+* refactor code to use viewModels
 * remove databinding in permission fragment if needed
 * add support for dark theme map style
 * check to use android standard permission instead of EasyPermissions library
