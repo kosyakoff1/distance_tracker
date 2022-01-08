@@ -1,6 +1,7 @@
 package com.kosyakoff.distancetrackerapp.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
@@ -12,6 +13,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.databinding.FragmentMapsBinding
+import com.kosyakoff.distancetrackerapp.service.TrackerService
+import com.kosyakoff.distancetrackerapp.util.Constants
 import com.kosyakoff.distancetrackerapp.util.Permissions
 import com.kosyakoff.distancetrackerapp.util.getColorFromAttr
 import com.vmadalin.easypermissions.EasyPermissions
@@ -114,6 +117,13 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
         startCountDown()
     }
 
+    private fun sendActionCommandToService(action: String) {
+        Intent(requireContext(), TrackerService::class.java).apply {
+            this.action = action
+            requireContext().startService(this)
+        }
+    }
+
     private fun startCountDown() {
         with(binding) {
             timerTextView.isVisible = true
@@ -132,6 +142,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
                 }
 
                 override fun onFinish() {
+                    sendActionCommandToService(Constants.ACTION_SERVICE_START)
                     timerTextView.isVisible = false
                 }
             }
