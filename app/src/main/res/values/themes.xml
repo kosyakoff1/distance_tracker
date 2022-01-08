@@ -15,5 +15,6 @@
         <item name="colorStopButton">@color/red_500</item>
         <item name="colorIconDefaultTint">@color/black</item>
         <item name="colorResetButton">@color/orange_500</item>
+        <item name="colorCountDownGo">@color/black</item>
     </style>
 </resources>

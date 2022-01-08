@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="colorWarning" format="color" />
-    <attr name="colorStopButton" format="color" />
-    <attr name="colorResetButton" format="color" />
-    <attr name="colorIconDefaultTint" format="color" />
+    <attr name="colorWarning" format="reference" />
+    <attr name="colorStopButton" format="reference" />
+    <attr name="colorResetButton" format="reference" />
+    <attr name="colorIconDefaultTint" format="reference" />
+    <attr name="colorCountDownGo" format="reference" />
 </resources>

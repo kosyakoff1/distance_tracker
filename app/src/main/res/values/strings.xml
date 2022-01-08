@@ -12,5 +12,6 @@
     <string name="scr_map_start_button">Start</string>
     <string name="scr_map_stop_button">Stop</string>
     <string name="scr_map_reset_button">Reset</string>
-    <string name="src_maps_background_location_needed_message">Background location permission to this application, without it we will not be able to provide you with our service</string>
+    <string name="src_map_background_location_needed_message">Background location permission to this application, without it we will not be able to provide you with our service</string>
+    <string name="scr_map_go_message">GO</string>
 </resources>

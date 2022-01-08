@@ -36,7 +36,7 @@ object Permissions {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             EasyPermissions.requestPermissions(
                 fragment,
-                fragment.getString(R.string.src_maps_background_location_needed_message),
+                fragment.getString(R.string.src_map_background_location_needed_message),
                 PERMISSION_BACKGROUND_LOCATION_REQUEST_CODE,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             )

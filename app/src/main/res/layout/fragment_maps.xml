@@ -72,6 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:backgroundTint="?colorStopButton"
+            android:textColor="?colorOnPrimary"
             android:text="@string/scr_map_stop_button"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
