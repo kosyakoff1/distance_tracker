@@ -1,12 +1,12 @@
-package com.kosyakoff.distancetrackerapp
+package com.kosyakoff.distancetrackerapp.ui.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.databinding.FragmentPermissionBinding
 import com.kosyakoff.distancetrackerapp.navigation.Navigator
-import com.kosyakoff.distancetrackerapp.ui.fragments.BaseFragment
 import com.kosyakoff.distancetrackerapp.util.Permissions
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog

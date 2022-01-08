@@ -1,4 +1,4 @@
-package com.kosyakoff.distancetrackerapp
+package com.kosyakoff.distancetrackerapp.ui.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -6,8 +6,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.databinding.FragmentMapsBinding
-import com.kosyakoff.distancetrackerapp.ui.fragments.BaseFragment
 
 class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback {
 
@@ -31,6 +31,6 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap) {
-        TODO("Not yet implemented")
+
     }
 }

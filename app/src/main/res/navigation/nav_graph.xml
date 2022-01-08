@@ -7,16 +7,18 @@
 
     <fragment
         android:id="@+id/permissionFragment"
-        android:name="com.kosyakoff.distancetrackerapp.PermissionFragment"
+        android:name="com.kosyakoff.distancetrackerapp.ui.fragments.PermissionFragment"
         android:label="fragment_permission"
         tools:layout="@layout/fragment_permission" >
         <action
             android:id="@+id/action_permissionFragment_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
+            app:destination="@id/mapsFragment"
+            app:popUpTo="@id/permissionFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.kosyakoff.distancetrackerapp.MapsFragment"
+        android:name="com.kosyakoff.distancetrackerapp.ui.fragments.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" >
         <action
@@ -25,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.kosyakoff.distancetrackerapp.ResultFragment"
+        android:name="com.kosyakoff.distancetrackerapp.ui.fragments.ResultFragment"
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" >
         <action

@@ -1,9 +1,10 @@
-package com.kosyakoff.distancetrackerapp
+package com.kosyakoff.distancetrackerapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.navigation.Navigator
 import com.kosyakoff.distancetrackerapp.util.Permissions
 

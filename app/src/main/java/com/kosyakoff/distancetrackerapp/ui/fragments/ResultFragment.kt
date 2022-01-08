@@ -1,10 +1,11 @@
-package com.kosyakoff.distancetrackerapp
+package com.kosyakoff.distancetrackerapp.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.kosyakoff.distancetrackerapp.R
 
 class ResultFragment : Fragment() {
 
