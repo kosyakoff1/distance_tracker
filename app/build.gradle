@@ -51,6 +51,8 @@ dependencies {
     implementation "com.google.maps.android:maps-utils-ktx:$google_maps_version"
 
     implementation("com.google.dagger:hilt-android:$hilt_android_version")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.1'
     kapt("com.google.dagger:hilt-android-compiler:$hilt_android_compiler_version")
 
     implementation "com.vmadalin:easypermissions-ktx:$easypermissions_kotlin_version"
