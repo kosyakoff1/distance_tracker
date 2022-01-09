@@ -52,6 +52,9 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
             startButton.setOnClickListener {
                 onStartButtonClicked()
             }
+            stopButton.setOnClickListener {
+                onStopButtonClicked()
+            }
         }
     }
 
@@ -121,6 +124,11 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
         TrackerService.locationList.observe(viewLifecycleOwner) {
             if (it != null) {
                 locationList = it
+
+                if (locationList.size > 1) {
+                    binding.stopButton.isEnabled = true
+                }
+
                 drawPolyline()
                 followPolyline()
             }
@@ -160,6 +168,16 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
             stopButton.isVisible = true
         }
         startCountDown()
+    }
+
+    private fun onStopButtonClicked() {
+        stopForegroundService()
+        binding.stopButton.isVisible = false
+    }
+
+    private fun stopForegroundService() {
+        binding.startButton.isEnabled = false
+        sendActionCommandToService(Constants.ACTION_SERVICE_STOP)
     }
 
     private fun sendActionCommandToService(action: String) {
