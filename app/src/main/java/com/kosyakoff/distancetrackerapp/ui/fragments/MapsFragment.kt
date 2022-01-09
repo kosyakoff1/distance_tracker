@@ -2,19 +2,26 @@ package com.kosyakoff.distancetrackerapp.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.ButtCap
+import com.google.android.gms.maps.model.JointType
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
 import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.databinding.FragmentMapsBinding
 import com.kosyakoff.distancetrackerapp.service.TrackerService
 import com.kosyakoff.distancetrackerapp.util.Constants
+import com.kosyakoff.distancetrackerapp.util.MapUtils
 import com.kosyakoff.distancetrackerapp.util.Permissions
 import com.kosyakoff.distancetrackerapp.util.getColorFromAttr
 import com.vmadalin.easypermissions.EasyPermissions
@@ -28,6 +35,8 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
 
     private val binding: FragmentMapsBinding by viewBinding(FragmentMapsBinding::bind)
     private lateinit var map: GoogleMap
+
+    private var locationList = mutableListOf<LatLng>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,6 +58,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         initMap()
+        observeTrackerService()
     }
 
     override fun onMyLocationButtonClick(): Boolean {
@@ -104,6 +114,39 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
             isTiltGesturesEnabled = false
             isCompassEnabled = false
             isScrollGesturesEnabled = false
+        }
+    }
+
+    private fun observeTrackerService() {
+        TrackerService.locationList.observe(viewLifecycleOwner) {
+            if (it != null) {
+                locationList = it
+                drawPolyline()
+                followPolyline()
+            }
+        }
+    }
+
+    private fun drawPolyline() {
+        var polyline = map.addPolyline(
+            PolylineOptions().apply {
+                width(10f)
+                color(Color.BLUE)
+                jointType(JointType.ROUND)
+                startCap(ButtCap())
+                endCap(ButtCap())
+                addAll(locationList)
+            }
+        )
+    }
+
+    private fun followPolyline() {
+        if (locationList.isNotEmpty()) {
+            map.animateCamera(
+                CameraUpdateFactory.newCameraPosition(
+                    MapUtils.setCameraPosition(locationList.last())
+                ), 1000, null
+            )
         }
     }
 

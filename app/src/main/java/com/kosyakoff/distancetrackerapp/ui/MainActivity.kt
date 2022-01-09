@@ -7,7 +7,9 @@ import androidx.navigation.fragment.NavHostFragment
 import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.navigation.Navigator
 import com.kosyakoff.distancetrackerapp.util.Permissions
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
