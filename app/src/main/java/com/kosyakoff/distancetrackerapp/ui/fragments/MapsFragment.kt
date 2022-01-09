@@ -19,8 +19,10 @@ import com.kosyakoff.distancetrackerapp.util.Permissions
 import com.kosyakoff.distancetrackerapp.util.getColorFromAttr
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
+@AndroidEntryPoint
 class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
     GoogleMap.OnMyLocationButtonClickListener, EasyPermissions.PermissionCallbacks {
 
