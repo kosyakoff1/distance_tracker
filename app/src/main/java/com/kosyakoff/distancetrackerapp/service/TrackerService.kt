@@ -39,6 +39,7 @@ class TrackerService : LifecycleService() {
             when (it.action) {
                 Constants.ACTION_SERVICE_START -> {
                     started.postValue(true)
+                    startForegroundService()
                 }
                 Constants.ACTION_SERVICE_STOP -> {
                     started.postValue(false)
@@ -60,5 +61,10 @@ class TrackerService : LifecycleService() {
             )
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    private fun startForegroundService() {
+        createNotificationChannel()
+        startForeground(Constants.NOTIFICATION_ID, notification.build())
     }
 }
