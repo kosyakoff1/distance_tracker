@@ -14,7 +14,7 @@ object MapsBindingAdapter {
         if (view is Button) {
             view.isVisible = started
         }
-        if (view is TextView) {
+        else if (view is TextView) {
             view.isVisible = !started
         }
 

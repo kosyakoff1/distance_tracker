@@ -14,7 +14,9 @@ import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
+import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.util.Constants
+import com.kosyakoff.distancetrackerapp.util.MapUtils
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -36,13 +38,24 @@ class TrackerService : LifecycleService() {
             result?.locations?.let { locations ->
                 for (location in locations) {
                     updateLocationList(location)
+                    updateNotificationText()
                 }
             }
         }
     }
 
+    private fun updateNotificationText() {
+        notification.apply {
+            setContentTitle(getString(R.string.srv_tracker_distance_travelled_message))
+            locationList?.value?.let {
+                setContentText(MapUtils.calculateDistance(locationList.value!!) + "km")
+            }
+            notificationManager.notify(Constants.NOTIFICATION_ID, this.build())
+        }
+    }
+
     companion object {
-        val started = MutableLiveData<Boolean>()
+        val started = MutableLiveData<Boolean>(false)
         val locationList = MutableLiveData<MutableList<LatLng>>()
         val startTime = MutableLiveData<Long>()
         val stopTime = MutableLiveData<Long>()
