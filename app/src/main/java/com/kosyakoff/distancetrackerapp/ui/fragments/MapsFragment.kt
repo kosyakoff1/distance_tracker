@@ -7,16 +7,14 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.ButtCap
-import com.google.android.gms.maps.model.JointType
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.databinding.FragmentMapsBinding
 import com.kosyakoff.distancetrackerapp.service.TrackerService
@@ -38,6 +36,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
     private var startTime = 0L
     private var stopTime = 0L
 
+    val started = MutableLiveData<Boolean>(false)
     private var locationList = mutableListOf<LatLng>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,6 +50,10 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
         mapFragment?.getMapAsync(this)
 
         with(binding) {
+            lifecycleOwner = viewLifecycleOwner
+
+            binding.tracking = this@MapsFragment
+
             startButton.setOnClickListener {
                 onStartButtonClicked()
             }
@@ -135,9 +138,31 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
                 followPolyline()
             }
         }
+        TrackerService.started.observe(viewLifecycleOwner) {
+            started.value = it
+        }
         TrackerService.startTime.observe(viewLifecycleOwner) { startTime = it }
-        TrackerService.stopTime.observe(viewLifecycleOwner) { stopTime = it }
+        TrackerService.stopTime.observe(viewLifecycleOwner) {
+            stopTime = it
+            if (stopTime != 0L) {
+                showBiggerPicture()
+            }
+
+        }
     }
+
+    private fun showBiggerPicture() {
+        val bounds = LatLngBounds.Builder()
+        for (location in locationList) {
+            bounds.include(location)
+        }
+        map.animateCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds.build(), 100,
+            ), 2000, null
+        )
+    }
+
 
     private fun drawPolyline() {
         var polyline = map.addPolyline(

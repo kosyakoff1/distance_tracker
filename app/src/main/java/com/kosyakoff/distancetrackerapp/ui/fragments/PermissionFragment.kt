@@ -18,6 +18,7 @@ class PermissionFragment : BaseFragment(R.layout.fragment_permission),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {

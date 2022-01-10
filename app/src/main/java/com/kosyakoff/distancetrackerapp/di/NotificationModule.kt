@@ -25,7 +25,7 @@ object NotificationModule {
         PendingIntent.getActivity(
             context,
             Constants.NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
-            Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT
+            Intent(context, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
         )
 
     @ServiceScoped

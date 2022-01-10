@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="tracking"
+            type="com.kosyakoff.distancetrackerapp.ui.fragments.MapsFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,6 +51,7 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textStyle="bold"
+            app:visibilityBasedOnTrackingStatus="@{tracking.started}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,8 +76,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:backgroundTint="?colorStopButton"
-            android:textColor="?colorOnPrimary"
             android:text="@string/scr_map_stop_button"
+            app:visibilityBasedOnTrackingStatus="@{tracking.started}"
+            android:textColor="?colorOnPrimary"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
