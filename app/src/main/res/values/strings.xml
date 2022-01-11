@@ -15,4 +15,7 @@
     <string name="src_map_background_location_needed_message">Background location permission to this application, without it we will not be able to provide you with our service</string>
     <string name="scr_map_go_message">GO</string>
     <string name="srv_tracker_distance_travelled_message">Distance Travelled</string>
+    <string name="scr_result_distance_text_view">Distance</string>
+    <string name="scr_result_time_text_view">Time</string>
+    <string name="scr_result_share_buttom">share</string>
 </resources>
