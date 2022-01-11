@@ -18,4 +18,6 @@
     <string name="scr_result_distance_text_view">Distance</string>
     <string name="scr_result_time_text_view">Time</string>
     <string name="scr_result_share_buttom">share</string>
+    <string name="scr_result_distance_formatted_string">%1s km</string>
+    <string name="scr_result_share_result">I traveled %1s km in $2s</string>
 </resources>

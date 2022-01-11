@@ -9,6 +9,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -17,6 +18,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.kosyakoff.distancetrackerapp.R
 import com.kosyakoff.distancetrackerapp.databinding.FragmentMapsBinding
+import com.kosyakoff.distancetrackerapp.model.ResultModel
+import com.kosyakoff.distancetrackerapp.navigation.Navigator
 import com.kosyakoff.distancetrackerapp.service.TrackerService
 import com.kosyakoff.distancetrackerapp.util.Constants
 import com.kosyakoff.distancetrackerapp.util.MapUtils
@@ -26,6 +29,7 @@ import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
@@ -146,8 +150,29 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
             stopTime = it
             if (stopTime != 0L) {
                 showBiggerPicture()
+                displayResult()
             }
 
+        }
+    }
+
+    private fun displayResult() {
+
+        lifecycleScope.launch {
+            delay(2500)
+            val result = ResultModel(
+                MapUtils.calculateDistance(locationList),
+                MapUtils.calculateElapsedTime(startTime, stopTime)
+            )
+            Navigator.navigateToResults(findNavController(), result)
+            binding.startButton.apply {
+                isVisible = false
+                isEnabled = true
+            }
+            binding.stopButton.apply {
+                isVisible = false
+            }
+            binding.resetButton.isVisible = true
         }
     }
 
