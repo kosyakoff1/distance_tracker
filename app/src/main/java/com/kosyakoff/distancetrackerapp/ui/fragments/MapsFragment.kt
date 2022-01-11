@@ -11,6 +11,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -23,6 +25,7 @@ import com.kosyakoff.distancetrackerapp.navigation.Navigator
 import com.kosyakoff.distancetrackerapp.service.TrackerService
 import com.kosyakoff.distancetrackerapp.util.Constants
 import com.kosyakoff.distancetrackerapp.util.MapUtils
+import com.kosyakoff.distancetrackerapp.util.MapUtils.setCameraPosition
 import com.kosyakoff.distancetrackerapp.util.Permissions
 import com.kosyakoff.distancetrackerapp.util.getColorFromAttr
 import com.vmadalin.easypermissions.EasyPermissions
@@ -39,6 +42,8 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
     private lateinit var map: GoogleMap
     private var startTime = 0L
     private var stopTime = 0L
+    private var polylineList = mutableListOf<Polyline>()
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     val started = MutableLiveData<Boolean>(false)
     private var locationList = mutableListOf<LatLng>()
@@ -47,6 +52,8 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
     override fun initViews() {
@@ -64,6 +71,31 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
             stopButton.setOnClickListener {
                 onStopButtonClicked()
             }
+            resetButton.setOnClickListener {
+                onResetButtonClicked()
+            }
+        }
+    }
+
+    private fun onResetButtonClicked() {
+        mapReset()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun mapReset() {
+        fusedLocationProviderClient.lastLocation.addOnCompleteListener {
+            val lastKnownLocaton = LatLng(it.result.latitude, it.result.longitude)
+            for (polyline in polylineList) {
+                polyline.remove()
+            }
+            map.animateCamera(
+                CameraUpdateFactory.newCameraPosition(
+                    setCameraPosition(lastKnownLocaton)
+                )
+            )
+            locationList.clear()
+            binding.resetButton.isVisible = false
+            binding.startButton.isVisible = true
         }
     }
 
@@ -200,6 +232,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
                 addAll(locationList)
             }
         )
+        polylineList.add(polyline)
     }
 
     private fun followPolyline() {
