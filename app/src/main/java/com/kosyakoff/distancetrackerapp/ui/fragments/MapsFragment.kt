@@ -36,13 +36,14 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
-    GoogleMap.OnMyLocationButtonClickListener, EasyPermissions.PermissionCallbacks {
+    GoogleMap.OnMyLocationButtonClickListener, EasyPermissions.PermissionCallbacks, GoogleMap.OnMarkerClickListener {
 
     private val binding: FragmentMapsBinding by viewBinding(FragmentMapsBinding::bind)
     private lateinit var map: GoogleMap
     private var startTime = 0L
     private var stopTime = 0L
     private var polylineList = mutableListOf<Polyline>()
+    private var markerList = mutableListOf<Marker>()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     val started = MutableLiveData<Boolean>(false)
@@ -85,14 +86,20 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
     private fun mapReset() {
         fusedLocationProviderClient.lastLocation.addOnCompleteListener {
             val lastKnownLocaton = LatLng(it.result.latitude, it.result.longitude)
-            for (polyline in polylineList) {
-                polyline.remove()
-            }
+
             map.animateCamera(
                 CameraUpdateFactory.newCameraPosition(
                     setCameraPosition(lastKnownLocaton)
                 )
             )
+            for (polyline in polylineList) {
+                polyline.remove()
+            }
+
+            for (marker in markerList) {
+                marker.remove()
+            }
+            markerList.clear()
             locationList.clear()
             binding.resetButton.isVisible = false
             binding.startButton.isVisible = true
@@ -103,6 +110,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
         map = googleMap
         initMap()
         observeTrackerService()
+        map.setOnMarkerClickListener(this)
     }
 
     override fun onMyLocationButtonClick(): Boolean {
@@ -218,8 +226,14 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
                 bounds.build(), 100,
             ), 2000, null
         )
+        addMarker(locationList.first())
+        addMarker(locationList.last())
     }
 
+    private fun addMarker(position: LatLng) {
+        val marker = map.addMarker(MarkerOptions().position(position))
+        markerList.add(marker!!)
+    }
 
     private fun drawPolyline() {
         var polyline = map.addPolyline(
@@ -300,5 +314,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps), OnMapReadyCallback,
             timer.start()
         }
     }
+
+    override fun onMarkerClick(p0: Marker): Boolean = true
 
 }
