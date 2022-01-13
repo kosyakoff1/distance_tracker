@@ -50,7 +50,6 @@ class PermissionFragment : BaseFragment(R.layout.fragment_permission),
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(
             requestCode, permissions, grantResults, this
         )

@@ -54,13 +54,12 @@ dependencies {
     implementation "com.google.maps.android:maps-utils-ktx:$google_maps_version"
 
     implementation("com.google.dagger:hilt-android:$hilt_android_version")
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.gms:play-services-maps:18.0.1'
+    implementation "com.google.android.gms:play-services-maps:$play_services_version"
     kapt("com.google.dagger:hilt-android-compiler:$hilt_android_compiler_version")
 
     implementation "com.vmadalin:easypermissions-ktx:$easypermissions_kotlin_version"
 
-    implementation "com.google.android.gms:play-services-location:$play_services_version"
+    implementation "com.google.android.gms:play-services-location:$play_services_location_version"
 
     // Kotlin
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
@@ -76,8 +75,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version")
-
-    implementation "com.google.android.gms:play-services-location:$play_services_version"
 
     implementation "androidx.core:core-ktx:$core_ktx_version"
     implementation "androidx.appcompat:appcompat:$material_version"
